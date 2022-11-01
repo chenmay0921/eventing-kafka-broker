@@ -164,7 +164,7 @@ public class InvalidCloudEventInterceptor implements ConsumerInterceptor<Object,
         contentTypeHeader = h;
         continue;
       }
-      value.withExtension(KAFKA_HEADER_EXTENSION_PREFIX + replaceBadChars(h.key()), new String(h.value(), StandardCharsets.UTF_8));
+      value.withExtension(KAFKA_HEADER_EXTENSION_PREFIX + replaceBadChars(h.key()), replaceBadChars(new String(h.value(), StandardCharsets.UTF_8)));
     }
     if (contentTypeHeader != null) {
       value.withDataContentType(new String(contentTypeHeader.value(), StandardCharsets.UTF_8).toLowerCase());
