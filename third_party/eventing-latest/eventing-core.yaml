@@ -1059,7 +1059,7 @@ spec:
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: eventing-webhook
@@ -1076,13 +1076,6 @@ spec:
     name: eventing-webhook
   minReplicas: 1
   maxReplicas: 5
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 100
 ---
 # Webhook PDB.
 apiVersion: policy/v1
