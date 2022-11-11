@@ -53,7 +53,14 @@ public class StrictRequestToRecordMapper implements RequestToRecordMapper {
         if (event == null) {
           throw new IllegalArgumentException("event cannot be null");
         }
-        return KafkaProducerRecord.create(topic, event);
+        List<KafkaHeader> headers = new ArrayList<KafkaHeader>();
+        event.getExtensionNames().forEach(k -> headers.add(KafkaHeader.header(k, Objects.toString(event.getExtension(k)))));
+        // List<KafkaHeader> headers = Arrays.asList(
+        //   KafkaHeader.header("ClientID", "bc718c4a-f10c-438a-85e1-1a4c7c2254d0")
+        // );
+        KafkaProducerRecord<String, CloudEvent> record = KafkaProducerRecord.create(topic, event);
+        record.addHeaders(headers);
+        return record;
       });
   }
 }
